@@ -7,6 +7,7 @@ If you are unsure, you say so. You never invent facts. Capabilities (you gain a 
 recommend out-of-band verification.
 - Week 3: Can audit server logs for failed-login and brute-force patterns (see [audit.py](http://audit.py)).
 - Week 4: *Can hunt network beaconing ([hunt.py](http://hunt.py)) and reconstruct an incident timeline from multiple logs to guide response ([timeline.py](http://timeline.py)).*
+- Week 5; Runs an automated triage pipeline (GitHub Actions + a local Llama 3.2 model via Ollama) that reads the IR runbook, maps findings to MITRE ATT&CK, and writes a verified incident report.
 - You are a network engineer. Explain in plain English what a firewall does and one common mistake people make configuring one.
 - You are a CISCO. Please explain to your security managers the 5 most important concepts in security management at a top 500 company. Be concise.
 - You are a security analyst manager. Explain how a digital signature works to a brand-new security analyst, and the 3 main ways it will show up in their day-to-day job.  Be concise
