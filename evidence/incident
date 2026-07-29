@@ -1,0 +1,59 @@
+=== AUTH LOG ===
+2026-07-28 02:14:01 sshd[3311]: Failed password for admin from 185.220.101.42 port 51122
+2026-07-28 02:14:03 sshd[3312]: Failed password for admin from 185.220.101.42 port 51124
+2026-07-28 02:14:06 sshd[3313]: Failed password for admin from 185.220.101.42 port 51126
+2026-07-28 02:14:09 sshd[3314]: Failed password for admin from 185.220.101.42 port 51128
+2026-07-28 02:14:47 sshd[3390]: Accepted password for admin from 185.220.101.42 port 51201
+2026-07-28 02:15:02 sudo[3402]: admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/usr/bin/whoami
+2026-07-28 02:16:10 sudo[3418]: admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/usr/bin/net user backupsvc P@ssw0rd123! /add
+2026-07-28 02:16:44 sudo[3422]: admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/usr/sbin/usermod -aG sudo backupsvc
+2026-07-28 02:18:12 sshd[3501]: Accepted password for backupsvc from 185.220.101.42 port 51340
+2026-07-28 02:41:55 sshd[3789]: Accepted password for backupsvc from 10.0.12.55 port 44210
+2026-07-28 02:42:30 sudo[3801]: backupsvc : TTY=pts/1 ; PWD=/opt/backup ; USER=root ; COMMAND=/usr/bin/systemctl stop backup-agent
+
+=== EDR ALERTS ===
+[2026-07-28T02:20:03Z] ALERT id=8841 host=FIN-WKS-07 severity=HIGH
+  process="powershell.exe" cmdline="powershell -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA..."
+  detection="Suspicious encoded PowerShell command execution"
+
+[2026-07-28T02:24:17Z] ALERT id=8845 host=FIN-WKS-07 severity=HIGH
+  process="mimikatz.exe" cmdline="mimikatz.exe privilege::debug sekurlsa::logonpasswords"
+  detection="Credential dumping tool execution (LSASS memory access)"
+
+[2026-07-28T02:31:42Z] ALERT id=8852 host=FIN-WKS-07 severity=MEDIUM
+  process="wmic.exe" cmdline="wmic /node:DB-SRV-02,FILE-SRV-01 process call create \"cmd.exe /c update.exe\""
+  detection="Remote process creation via WMI (possible lateral movement)"
+
+[2026-07-28T02:47:09Z] ALERT id=8871 host=DB-SRV-02 severity=HIGH
+  process="vssadmin.exe" cmdline="vssadmin.exe delete shadows /all /quiet"
+  detection="Volume shadow copy deletion (inhibits system recovery)"
+
+[2026-07-28T02:47:55Z] ALERT id=8872 host=FILE-SRV-01 severity=HIGH
+  process="vssadmin.exe" cmdline="vssadmin.exe delete shadows /all /quiet"
+  detection="Volume shadow copy deletion (inhibits system recovery)"
+
+[2026-07-28T02:52:30Z] ALERT id=8890 host=DB-SRV-02 severity=CRITICAL
+  process="update.exe" cmdline="update.exe --encrypt --path C:\Shares --ext .lock42"
+  detection="Mass file modification consistent with ransomware encryption"
+
+[2026-07-28T02:53:10Z] ALERT id=8891 host=FILE-SRV-01 severity=CRITICAL
+  process="update.exe" cmdline="update.exe --encrypt --path D:\Finance --ext .lock42"
+  detection="Mass file modification consistent with ransomware encryption"
+
+[2026-07-28T02:55:00Z] ALERT id=8895 host=FILE-SRV-01 severity=CRITICAL
+  file="D:\Finance\README_RESTORE.txt"
+  detection="Ransom note file dropped"
+
+=== RANSOM NOTE (D:\Finance\README_RESTORE.txt) ===
+>>> YOUR FILES HAVE BEEN ENCRYPTED <<<
+
+All your important files (databases, documents, backups) have been
+encrypted with a strong algorithm. This note was found on:
+  FILE-SRV-01, D:\Finance\
+  DB-SRV-02, C:\Shares\
+
+To recover your files, contact us at: restore-support@lockmail42.onion
+Payment deadline: 72 hours. Price doubles after deadline.
+Do NOT rename encrypted files. Do NOT use third-party decryption tools.
+
+Affected file extension: .lock42
