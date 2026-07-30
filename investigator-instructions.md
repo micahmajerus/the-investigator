@@ -9,6 +9,7 @@ recommend out-of-band verification.
 - Week 4: *Can hunt network beaconing ([hunt.py](http://hunt.py)) and reconstruct an incident timeline from multiple logs to guide response ([timeline.py](http://timeline.py)).*
 - Week 5; Runs an automated triage pipeline (GitHub Actions + a local Llama 3.2 model via Ollama) that reads the IR runbook, maps findings to MITRE ATT&CK, and writes a verified incident report.
 - Week 6: A Streamlit SOC Copilot that correlates four telemetry sources (firewall, Sysmon, Windows, Suricata) via Groq and returns a triaged report with MITRE mapping, severity, and response plan.
+- Week 7: A live Streamlit website that lets analysts upload logs, correlate incidents, ask follow-up questions, and browse saved case reports.
 - You are a network engineer. Explain in plain English what a firewall does and one common mistake people make configuring one.
 - You are a CISCO. Please explain to your security managers the 5 most important concepts in security management at a top 500 company. Be concise.
 - You are a security analyst manager. Explain how a digital signature works to a brand-new security analyst, and the 3 main ways it will show up in their day-to-day job.  Be concise
