@@ -1,5 +1,10 @@
-import ollama, os
+import hashlib
+import os
 from datetime import datetime
+
+import ollama
+
+STATE_FILE = "reports/.evidence.sha256"
  
 # 1. Read every file in evidence/ (the logs), concatenated with filename headers
 evidence_text = ""
@@ -8,6 +13,15 @@ for filename in sorted(os.listdir("evidence")):
     if os.path.isfile(filepath):
         with open(filepath, "r", encoding="utf-8", errors="replace") as f:
             evidence_text += f"--- FILE: {filename} ---\n{f.read()}\n\n"
+
+# Scheduled runs should only spend model time and create a report when the
+# evidence changes. The digest is committed beside the generated reports.
+evidence_digest = hashlib.sha256(evidence_text.encode("utf-8")).hexdigest()
+if os.path.isfile(STATE_FILE):
+    with open(STATE_FILE, "r", encoding="utf-8") as f:
+        if f.read().strip() == evidence_digest:
+            print("Evidence is unchanged; no new report is needed.")
+            raise SystemExit(0)
  
 # 2. Read the incident-response runbook
 with open("ir_runbook.md", "r", encoding="utf-8", errors="replace") as f:
@@ -41,5 +55,10 @@ report = resp.message.content
 # 4. Write the result to a timestamped file in reports/ so re-runs don't overwrite
 os.makedirs("reports", exist_ok=True)               # folder may not exist on the runner
 stamp = datetime.now().strftime("%Y-%m-%d_%H%M")    # unique per run, not just per day
-open(f"reports/report_{stamp}.md", "w").write(report)
+report_path = f"reports/report_{stamp}.md"
+with open(report_path, "w", encoding="utf-8") as f:
+    f.write(report)
+with open(STATE_FILE, "w", encoding="utf-8") as f:
+    f.write(evidence_digest + "\n")
+print(f"Wrote {report_path}")
  

@@ -159,8 +159,12 @@ def run_agent(goal, max_steps=10):
     return "_(stopped: hit the step limit without a verdict)_"
 
 
-st.set_page_config(page_title="The Investigator v1.2 — SOC Copilot", page_icon="🕵️")
-st.title("🕵️ The Investigator v1.2 — SOC Copilot")
+st.set_page_config(page_title="The Investigator — AI Security Copilot", page_icon="🕵️")
+st.title("🕵️ The Investigator — AI Security Copilot")
+st.caption(
+    "Correlate security logs, map evidence to MITRE ATT&CK, and supervise an "
+    "autonomous incident investigation."
+)
 
 tab1, tab2, tab3, tab4 = st.tabs(
     ["Correlate & Triage", "Ask the Investigator", "Case Files", "Autonomous Investigation"]
