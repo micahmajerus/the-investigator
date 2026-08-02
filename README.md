@@ -91,10 +91,6 @@ Or build it from this repository with `docker build -t investigator-agent .`.
 
 `.github/workflows/triage.yml` runs after evidence changes, once per hour, or on manual dispatch. `triage.py` hashes the current evidence and exits without calling the model when nothing changed. When new evidence is present, it uses local Ollama in the Actions runner, writes a Markdown report to `reports/`, and commits the report and evidence digest.
 
-## Project notes
-
-- [One-page project write-up](docs/project-writeup.md)
-- [2–3 minute demo script](docs/demo-script.md)
 
 ## Responsible use
 
