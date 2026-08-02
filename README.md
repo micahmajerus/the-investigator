@@ -90,8 +90,3 @@ Or build it from this repository with `docker build -t investigator-agent .`.
 ## Scheduled pipeline
 
 `.github/workflows/triage.yml` runs after evidence changes, once per hour, or on manual dispatch. `triage.py` hashes the current evidence and exits without calling the model when nothing changed. When new evidence is present, it uses local Ollama in the Actions runner, writes a Markdown report to `reports/`, and commits the report and evidence digest.
-
-
-## Responsible use
-
-The sample evidence is synthetic. Do not upload secrets or regulated logs to a hosted model. Verify every AI-generated claim and MITRE technique ID against the source evidence and the official ATT&CK catalog before acting on a report.
